@@ -1,0 +1,45 @@
+{
+  "name": "core",
+  "version": "0.1.0",
+  "description": "> TODO: description",
+  "author": "damiankoper <kopernickk@gmail.com>",
+  "homepage": "https://github.com/damiankoper/text-entities-relations#readme",
+  "license": "ISC",
+  "main": "dist/core.js",
+  "types": "dist/core.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/damiankoper/text-entities-relations.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "webpack --config webpack.dev.js --progress --color",
+    "watch": "webpack --config webpack.dev.js --progress --color --watch",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
+  },
+  "bugs": {
+    "url": "https://github.com/damiankoper/text-entities-relations/issues"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-webpack-plugin": "^2.5.2",
+    "fork-ts-checker-webpack-plugin": "^6.1.1",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "ts-loader": "^8.0.18",
+    "typescript": "^4.2.3",
+    "webpack": "^5.25.1",
+    "webpack-cli": "^4.5.0",
+    "webpack-merge": "^5.7.3"
+  },
+  "dependencies": {
+    "typedi": "^0.10.0"
+  }
+}
