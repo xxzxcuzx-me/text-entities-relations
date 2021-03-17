@@ -15,7 +15,8 @@
     "test": "jest",
     "build": "webpack --config webpack.dev.js --progress --color",
     "watch": "webpack --config webpack.dev.js --progress --color --watch",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
+    "lint": "eslint '*/**/*.{js,ts,tsx}'",
+    "lint:fix": "eslint '*/**/*.{js,ts,tsx}' --fix"
   },
   "bugs": {
     "url": "https://github.com/damiankoper/text-entities-relations/issues"
