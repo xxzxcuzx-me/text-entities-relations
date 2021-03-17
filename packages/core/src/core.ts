@@ -1,3 +1,3 @@
-export default function test(): void {
-  console.log("teasasdsasdS dst");
-}
+import "reflect-metadata";
+
+export { NerInterfaceService } from "./domain/Ner/Services/NerInterface.service";

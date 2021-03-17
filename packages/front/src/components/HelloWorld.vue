@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <el-date-picker type="datetime" placeholder="Select date and time">
+    </el-date-picker>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the
@@ -103,15 +105,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import test from "core";
+import { defineComponent, onUnmounted } from "vue";
+import { NerInterfaceService } from "core";
 export default defineComponent({
   name: "HelloWorld",
   props: {
     msg: String
   },
   setup() {
-    test();
+    const nerInterface = new NerInterfaceService();
+    const onProgressUnsub = nerInterface.onProgress.sub((progress: number) => {
+      console.log(progress);
+    });
+
+    onUnmounted(() => {
+      onProgressUnsub();
+    });
   }
 });
 </script>

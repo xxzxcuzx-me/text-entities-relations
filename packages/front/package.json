@@ -6,11 +6,13 @@
     "build": "vue-cli-service build",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "lint:fix": "vue-cli-service lint --fix"
+    "lint:fix": "vue-cli-service lint --fix",
+    "watch": "vue-cli-service serve"
   },
   "dependencies": {
-    "vue": "^3.0.0",
     "core": "0.1.0",
+    "element-plus": "^1.0.2-beta.35",
+    "vue": "^3.0.0",
     "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
@@ -30,6 +32,7 @@
     "prettier": "^1.19.1",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
-    "typescript": "~3.9.3"
+    "typescript": "~3.9.3",
+    "vue-cli-plugin-element-plus": "~0.0.13"
   }
 }

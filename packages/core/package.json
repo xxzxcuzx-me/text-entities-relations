@@ -41,6 +41,8 @@
     "webpack-merge": "^5.7.3"
   },
   "dependencies": {
+    "reflect-metadata": "^0.1.13",
+    "strongly-typed-events": "^2.1.5",
     "typedi": "^0.10.0"
   }
 }
