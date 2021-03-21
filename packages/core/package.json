@@ -5,8 +5,8 @@
   "author": "damiankoper <kopernickk@gmail.com>",
   "homepage": "https://github.com/damiankoper/text-entities-relations#readme",
   "license": "ISC",
-  "main": "dist/core.js",
-  "types": "dist/core.d.ts",
+  "main": "lib/core.js",
+  "types": "lib/core.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/damiankoper/text-entities-relations.git"
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
+    "@types/workerpool": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "clean-webpack-plugin": "^3.0.0",
@@ -43,6 +44,7 @@
   "dependencies": {
     "reflect-metadata": "^0.1.13",
     "strongly-typed-events": "^2.1.5",
-    "typedi": "^0.10.0"
+    "typedi": "^0.10.0",
+    "workerpool": "^6.1.2"
   }
 }

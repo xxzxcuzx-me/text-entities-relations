@@ -2,7 +2,8 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const ESLintWebpackPlugin = require("eslint-webpack-plugin");
-
+var glob = require("glob");
+console.log(glob.sync("./src/**/*.worker.ts"));
 module.exports = {
   entry: "./src/core.ts",
   mode: "development",
@@ -13,9 +14,8 @@ module.exports = {
   output: {
     library: "core",
     libraryTarget: "umd",
-
     filename: "core.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "lib"),
   },
   module: {
     rules: [
