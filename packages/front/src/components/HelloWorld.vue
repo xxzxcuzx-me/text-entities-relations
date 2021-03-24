@@ -113,10 +113,11 @@ export default defineComponent({
     msg: String
   },
   setup() {
-    const nerInterface = new NerInterfaceService();
+    const nerInterface = NerInterfaceService.get();
     const onProgressUnsub = nerInterface.onProgress.sub((progress: number) => {
       console.log(progress);
     });
+    console.log(nerInterface.nestedTestService.test);
 
     onUnmounted(() => {
       onProgressUnsub();

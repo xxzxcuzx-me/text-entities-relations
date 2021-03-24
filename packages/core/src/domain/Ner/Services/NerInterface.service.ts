@@ -1,12 +1,9 @@
-import { Service } from "typedi";
+import Container, { Service } from "typedi";
 import { SimpleEventDispatcher, ISimpleEvent } from "strongly-typed-events";
-import workerpool from "workerpool";
+import { NestedTest } from "./NestedTest.service";
 /**
  * Responsible for sending and obtaining results of NER processing.
  * Fetches and emits progress events.
- *
- * Should this be a root service alongside with other services?
- * Or maybe this service should be injected and obtained from general class like Ter{}
  */
 @Service()
 export class NerInterfaceService {
@@ -15,7 +12,11 @@ export class NerInterfaceService {
     return this._onProgress.asEvent();
   }
 
-  constructor() {
+  static get(): NerInterfaceService {
+    return Container.get(NerInterfaceService);
+  }
+
+  constructor(public nestedTestService: NestedTest) {
     /*   const worker = new Worker(
       new URL(
         "../../IndirectRelatationStructure/Workers/IRS.worker.ts",
@@ -29,23 +30,5 @@ export class NerInterfaceService {
     worker.onmessage = ({ data: { answer } }) => {
       console.log(answer);
     }; */
-
-    const pool = workerpool.pool();
-
-    function add(a, b) {
-      return a + b;
-    }
-
-    pool
-      .exec(add, [3, 4])
-      .then(function (result) {
-        console.log("result", result); // outputs 7
-      })
-      .catch(function (err) {
-        console.error(err);
-      })
-      .then(function () {
-        pool.terminate(); // terminate all workers when done
-      });
   }
 }
