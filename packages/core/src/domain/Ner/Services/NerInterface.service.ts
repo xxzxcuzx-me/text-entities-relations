@@ -31,4 +31,8 @@ export class NerInterfaceService {
       console.log(answer);
     }; */
   }
+
+  public multiplyAdd(a: number, b: number, c: number): number {
+    return a * this.nestedTestService.add(b, c);
+  }
 }
