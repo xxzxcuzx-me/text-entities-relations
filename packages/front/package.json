@@ -13,6 +13,7 @@
     "core": "0.1.0",
     "element-plus": "^1.0.2-beta.35",
     "vue": "^3.0.0",
+    "vue-loader-v16": "^16.0.0-beta.5.4",
     "vue-router": "^4.0.0-0"
   },
   "devDependencies": {

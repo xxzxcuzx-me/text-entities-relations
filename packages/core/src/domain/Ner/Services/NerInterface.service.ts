@@ -16,7 +16,7 @@ export class NerInterfaceService {
   }
 
   constructor() {
-    /*   const worker = new Worker(
+      const worker = new Worker(
       new URL(
         "../../IndirectRelatationStructure/Workers/IRS.worker.ts",
         import.meta.url
@@ -28,11 +28,11 @@ export class NerInterfaceService {
     });
     worker.onmessage = ({ data: { answer } }) => {
       console.log(answer);
-    }; */
+    };
 
-    const pool = workerpool.pool();
+    /* const pool = workerpool.pool();
 
-    function add(a, b) {
+    function add(a: any, b: any) {
       return a + b;
     }
 
@@ -47,5 +47,5 @@ export class NerInterfaceService {
       .then(function () {
         pool.terminate(); // terminate all workers when done
       });
-  }
+  } */
 }
