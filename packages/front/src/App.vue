@@ -1,12 +1,4 @@
 <template>
-  <div>
-    <p>
-      If Element Plus is successfully added to this project, you'll see an
-      <code v-text="'<el-button>'"></code>
-      below
-    </p>
-    <el-button type="primary">el-button</el-button>
-  </div>
   <router-view />
 </template>
 
@@ -23,6 +15,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 20px;
 }
 </style>
