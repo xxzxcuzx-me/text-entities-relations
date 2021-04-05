@@ -125,8 +125,10 @@ export class NerInterfaceService {
             await this.observeTask();
           } else if (data.status === status.DONE) {
             this._onProgress.dispatch(1);
-            this.resultHandle = data.value[0].fileID;
-            await this.processResult();
+            for (const resultFile of data.value) {
+              this.resultHandle = resultFile["fileID"];
+              await this.processResult();
+            }
             this._onSuccess.dispatch(this.result);
           } else if (data.status === status.ERROR) {
             reject(null);
