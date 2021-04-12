@@ -1,7 +1,10 @@
 import { Token } from "../Models/Token";
 import { Sentence } from "../Models/Sentence";
-import { TokenType, XMLToken } from "../Constants";
+import { XMLToken } from "../Constants";
+import { Service } from "typedi";
+import { TokenType } from "../Models/TokenType";
 
+@Service()
 export class TokenCreator {
   private wordGlobalCounter = 0;
 
@@ -40,6 +43,10 @@ export class TokenCreator {
       }
     }
     return "0";
+  }
+
+  public reset(): void {
+    this.wordGlobalCounter = 0;
   }
 
   private getTokenType(type: string): TokenType {

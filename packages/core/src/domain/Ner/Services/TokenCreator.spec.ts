@@ -1,31 +1,17 @@
 import { TokenCreator } from "./TokenCreator";
 import { Sentence } from "../Models/Sentence";
 import { Token } from "../Models/Token";
-import { TokenType, XMLToken } from "../Constants";
+import { XMLToken } from "../Constants";
+import { TokenType } from "../Models/TokenType";
 
 describe("TokenCreator", () => {
-  let tokenCreator: TokenCreator;
+  const tokenCreator = new TokenCreator();
 
   beforeEach(() => {
     jest.resetAllMocks();
     jest.clearAllMocks();
-    tokenCreator = new TokenCreator();
+    tokenCreator.reset();
   });
-
-  /*it("should return TokenType.LOCATION", () => {
-    const result = service["getTokenType"]("geogName");
-    expect(result).toBe(TokenType.LOCATION);
-  });
-
-  it("should return TokenType.PLACE", () => {
-    const result = service["getTokenType"]("placeName");
-    expect(result).toBe(TokenType.PLACE);
-  });
-
-  it("should return TokenType.PERSON", () => {
-    const result = service["getTokenType"]("persName");
-    expect(result).toBe(TokenType.PERSON);
-  });*/
 
   it("should create one token and push it into array", () => {
     const annotation = "1";

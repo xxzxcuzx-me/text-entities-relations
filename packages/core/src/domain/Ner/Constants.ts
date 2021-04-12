@@ -5,14 +5,6 @@ export const enum APIUrls {
   STATUS = "getStatus/",
 }
 
-export const enum Language {
-  PL = "pl",
-  EN = "en",
-  DE = "de",
-  ES = "es",
-  RU = "ru",
-}
-
 export const enum Status {
   PROCESSING = "PROCESSING",
   DONE = "DONE",
@@ -20,13 +12,6 @@ export const enum Status {
 }
 
 export const baseURL = "https://ws.clarin-pl.eu/nlprest2/base/";
-
-export enum TokenType {
-  LOCATION = "geogName",
-  PLACE = "placeName",
-  PERSON = "persName",
-  ORGANIZATION = "orgName",
-}
 
 export type XMLLex = {
   base: Array<string>;

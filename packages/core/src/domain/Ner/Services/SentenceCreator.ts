@@ -1,10 +1,13 @@
 import { TokenCreator } from "./TokenCreator";
 import { Sentence } from "../Models/Sentence";
 import { XMLSentence } from "../Constants";
+import { Service } from "typedi";
 
+@Service()
 export class SentenceCreator {
-  private tokenCreator = new TokenCreator();
   private sentenceGlobalCounter = 0;
+
+  constructor(private tokenCreator: TokenCreator) {}
 
   public createSentence(
     sentenceCounter: number,
@@ -30,5 +33,10 @@ export class SentenceCreator {
     }
     this.sentenceGlobalCounter++;
     return newSentence;
+  }
+
+  public reset(): void {
+    this.sentenceGlobalCounter = 0;
+    this.tokenCreator.reset();
   }
 }

@@ -1,31 +1,22 @@
 import { APIUrls, baseURL } from "../Constants";
 import axios from "axios";
-import { SimpleEventDispatcher, ISimpleEvent } from "strongly-typed-events";
 import { TaskObserver } from "./TaskObserver";
-import { ChunkList } from "../Models/ChunkList";
+import { Service } from "typedi";
+import { NEREventDispatcher } from "./NEREventDispatcher";
 
+@Service()
 export class TaskHandler {
   private headers = {
     headers: {
       "Content-Type": "application/json",
     },
   };
-  private _onError: SimpleEventDispatcher<string>;
   private user = "Grupa D";
-  private taskObserver: TaskObserver;
 
-  constructor(_onError: SimpleEventDispatcher<string>) {
-    this._onError = _onError;
-    this.taskObserver = new TaskObserver(_onError);
-  }
-
-  get onProgress(): ISimpleEvent<number> {
-    return this.taskObserver.onProgress;
-  }
-
-  get onSuccess(): ISimpleEvent<ChunkList> {
-    return this.taskObserver.onSuccess;
-  }
+  constructor(
+    private taskObserver: TaskObserver,
+    private eventDispatcher: NEREventDispatcher
+  ) {}
 
   public startTaskArchive(fileHandle: string, language: string): Promise<null> {
     const data = {
@@ -57,7 +48,7 @@ export class TaskHandler {
           resolve(null);
         },
         () => {
-          this._onError.dispatch("Error while starting task");
+          this.eventDispatcher.dispatchError("Error while starting task");
           reject(null);
         }
       );

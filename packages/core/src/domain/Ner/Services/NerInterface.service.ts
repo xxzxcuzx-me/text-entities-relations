@@ -1,7 +1,15 @@
 import Container, { Service } from "typedi";
-import { SimpleEventDispatcher, ISimpleEvent } from "strongly-typed-events";
+import { ISimpleEvent } from "strongly-typed-events";
 import { ChunkList } from "../Models/ChunkList";
-import { FileProcessor } from "../Classes/FileProcessor";
+import { FileProcessor } from "./FileProcessor";
+import { NEREventDispatcher } from "./NEREventDispatcher";
+import { TaskHandler } from "./TaskHandler";
+import { TaskObserver } from "./TaskObserver";
+import { ResultProcessor } from "./ResultProcessor";
+import { ChunkListCreator } from "./ChunkListCreator";
+import { ChunkCreator } from "./ChunkCreator";
+import { SentenceCreator } from "./SentenceCreator";
+import { TokenCreator } from "./TokenCreator";
 
 /**
  * Responsible for sending and obtaining results of NER processing.
@@ -9,21 +17,46 @@ import { FileProcessor } from "../Classes/FileProcessor";
  */
 @Service()
 export class NerInterfaceService {
-  private _onError = new SimpleEventDispatcher<string>();
-  private fileProcessor = new FileProcessor(this._onError);
+  constructor(
+    private fileProcessor: FileProcessor,
+    private eventDispatcher: NEREventDispatcher
+  ) {}
+
   get onProgress(): ISimpleEvent<number> {
-    return this.fileProcessor.onProgress;
+    return this.eventDispatcher.onProgress;
   }
 
   get onSuccess(): ISimpleEvent<ChunkList> {
-    return this.fileProcessor.onSuccess;
+    return this.eventDispatcher.onSuccess;
   }
 
   get onError(): ISimpleEvent<string> {
-    return this._onError.asEvent();
+    return this.eventDispatcher.onError;
   }
 
   static get(): NerInterfaceService {
+    const eventDispatcher = new NEREventDispatcher();
+    const tokenCreator = new TokenCreator();
+    const sentenceCreator = new SentenceCreator(tokenCreator);
+    const chunkCreator = new ChunkCreator(sentenceCreator);
+    const chunkListCreator = new ChunkListCreator(chunkCreator);
+    const resultProcessor = new ResultProcessor(
+      chunkListCreator,
+      eventDispatcher
+    );
+    const taskObserver = new TaskObserver(resultProcessor, eventDispatcher);
+    const taskHandler = new TaskHandler(taskObserver, eventDispatcher);
+    const fileProcessor = new FileProcessor(taskHandler, eventDispatcher);
+
+    Container.set(NEREventDispatcher, eventDispatcher);
+    Container.set(TokenCreator, tokenCreator);
+    Container.set(SentenceCreator, sentenceCreator);
+    Container.set(ChunkCreator, chunkCreator);
+    Container.set(ChunkListCreator, chunkListCreator);
+    Container.set(ResultProcessor, resultProcessor);
+    Container.set(TaskObserver, taskObserver);
+    Container.set(TaskHandler, taskHandler);
+    Container.set(FileProcessor, fileProcessor);
     return Container.get(NerInterfaceService);
   }
 

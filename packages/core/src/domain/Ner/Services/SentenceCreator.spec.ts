@@ -1,18 +1,19 @@
 import { SentenceCreator } from "./SentenceCreator";
 import { TokenCreator } from "./TokenCreator";
+jest.mock("./TokenCreator");
 
 describe("SentenceCreator", () => {
-  let sentenceCreator: SentenceCreator;
+  const mockTokenCreator = new TokenCreator() as jest.Mocked<TokenCreator>;
+  const sentenceCreator = new SentenceCreator(mockTokenCreator);
 
   beforeEach(() => {
     jest.resetAllMocks();
     jest.clearAllMocks();
-    sentenceCreator = new SentenceCreator();
+    sentenceCreator.reset();
   });
 
   it("should create one sentence and push it into array", () => {
-    const spy = jest.spyOn(TokenCreator.prototype, "createToken");
-    spy.mockReturnValue("0");
+    mockTokenCreator.createToken.mockReturnValue("0");
     const sentence = {
       tok: [
         {
@@ -36,12 +37,11 @@ describe("SentenceCreator", () => {
 
     expect(newSentence.sentenceIndex).toBe(0);
     expect(newSentence.sentenceGlobalIndex).toBe(0);
-    expect(spy).toHaveBeenCalledTimes(2);
+    expect(mockTokenCreator.createToken).toHaveBeenCalledTimes(2);
   });
 
   it("should create two sentences and push them into array", () => {
-    const spy = jest.spyOn(TokenCreator.prototype, "createToken");
-    spy.mockReturnValue("0");
+    mockTokenCreator.createToken.mockReturnValue("0");
     const sentence = {
       tok: [
         {
@@ -67,6 +67,6 @@ describe("SentenceCreator", () => {
 
     expect(newSentence.sentenceIndex).toBe(1);
     expect(newSentence.sentenceGlobalIndex).toBe(1);
-    expect(spy).toHaveBeenCalledTimes(4);
+    expect(mockTokenCreator.createToken).toHaveBeenCalledTimes(4);
   });
 });

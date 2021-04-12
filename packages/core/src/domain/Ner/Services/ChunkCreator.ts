@@ -2,9 +2,11 @@
 import { SentenceCreator } from "./SentenceCreator";
 import { Chunk } from "../Models/Chunk";
 import { XMLChunk } from "../Constants";
+import { Service } from "typedi";
 
+@Service()
 export class ChunkCreator {
-  private sentenceCreator = new SentenceCreator();
+  constructor(private sentenceCreator: SentenceCreator) {}
 
   public createChunk(chunkCounter: number, chunk: XMLChunk): Chunk {
     const newChunk: Chunk = {
@@ -23,5 +25,9 @@ export class ChunkCreator {
       }
     }
     return newChunk;
+  }
+
+  public reset(): void {
+    this.sentenceCreator.reset();
   }
 }

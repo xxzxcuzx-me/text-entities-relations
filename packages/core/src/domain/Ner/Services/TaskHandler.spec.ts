@@ -1,21 +1,29 @@
 import { TaskHandler } from "./TaskHandler";
 import { TaskObserver } from "./TaskObserver";
-import { SimpleEventDispatcher } from "strongly-typed-events";
 import axios from "axios";
+import { ResultProcessor } from "./ResultProcessor";
+import { NEREventDispatcher } from "./NEREventDispatcher";
+import { Language } from "../Models/Language";
+jest.mock("./NEREventDispatcher");
+jest.mock("./TaskObserver");
+jest.mock("axios");
 
 describe("TaskHandler", () => {
-  let taskHandler: TaskHandler;
-  const _onError = new SimpleEventDispatcher<string>();
+  const mockEventDispatcher = new NEREventDispatcher() as jest.Mocked<NEREventDispatcher>;
+  const mockTaskObserver = new TaskObserver(
+    {} as ResultProcessor,
+    mockEventDispatcher
+  ) as jest.Mocked<TaskObserver>;
+  const taskHandler = new TaskHandler(mockTaskObserver, mockEventDispatcher);
 
   beforeEach(() => {
     jest.resetAllMocks();
     jest.clearAllMocks();
-    taskHandler = new TaskHandler(_onError);
   });
 
   it("should hit APIUrls.START URL and tell it to use zip file", async () => {
     const fileHandle = "/test";
-    const language = "pl";
+    const language = Language.PL;
     const NERData = {
       data: "00d43a5d-336a-4725-9e2f-9830650f6f90",
     };
@@ -34,19 +42,18 @@ describe("TaskHandler", () => {
         '"})',
       user: "Grupa D",
     };
-    const spyObserveTask = jest.spyOn(TaskObserver.prototype, "observeTask");
-    spyObserveTask.mockResolvedValue(null);
+    mockTaskObserver.observeTask.mockResolvedValue(null);
     const spyAxios = jest.spyOn(axios, "post");
     spyAxios.mockResolvedValue(NERData);
     await taskHandler.startTaskArchive(fileHandle, language);
 
-    expect(spyObserveTask).toHaveBeenCalledTimes(1);
-    expect(spyAxios).toHaveBeenCalledTimes(1);
-    expect(spyAxios.mock.calls[0][0]).toBe(
-      "https://ws.clarin-pl.eu/nlprest2/base/startTask/"
+    expect(mockTaskObserver.observeTask).toHaveBeenCalled();
+    expect(spyAxios).toHaveBeenCalled();
+    expect(spyAxios).toHaveBeenCalledWith(
+      "https://ws.clarin-pl.eu/nlprest2/base/startTask/",
+      properData,
+      properHeader
     );
-    expect(spyAxios.mock.calls[0][1]).toStrictEqual(properData);
-    expect(spyAxios.mock.calls[0][2]).toStrictEqual(properHeader);
   });
 
   it("should hit APIUrls.START URL and tell it to use document file", async () => {
@@ -65,23 +72,23 @@ describe("TaskHandler", () => {
       file: fileHandle,
       user: "Grupa D",
     };
-    const spyObserveTask = jest.spyOn(TaskObserver.prototype, "observeTask");
-    spyObserveTask.mockResolvedValue(null);
+    mockTaskObserver.observeTask.mockResolvedValue(null);
     const spyAxios = jest.spyOn(axios, "post");
     spyAxios.mockResolvedValue(NERData);
     await taskHandler.startTaskDocument(fileHandle, language);
 
-    expect(spyObserveTask).toHaveBeenCalledTimes(1);
-    expect(spyAxios).toHaveBeenCalledTimes(1);
-    expect(spyAxios.mock.calls[0][0]).toBe(
-      "https://ws.clarin-pl.eu/nlprest2/base/startTask/"
+    expect(mockTaskObserver.observeTask).toHaveBeenCalled();
+    expect(spyAxios).toHaveBeenCalled();
+    expect(spyAxios).toHaveBeenCalledWith(
+      "https://ws.clarin-pl.eu/nlprest2/base/startTask/",
+      properData,
+      properHeader
     );
-    expect(spyAxios.mock.calls[0][1]).toStrictEqual(properData);
-    expect(spyAxios.mock.calls[0][2]).toStrictEqual(properHeader);
   });
 
   it("should try to hit APIUrls.START URL and miss", async () => {
-    const spyError = jest.spyOn(SimpleEventDispatcher.prototype, "dispatch");
+    mockEventDispatcher.dispatchError.mockReturnValue();
+    mockTaskObserver.observeTask.mockResolvedValue(null);
     const spyAxios = jest.spyOn(axios, "post");
     spyAxios.mockRejectedValue(new Error("test"));
     const fileHandle = "/test";
@@ -91,7 +98,8 @@ describe("TaskHandler", () => {
         expect(resolve).toBeNull();
       },
       () => {
-        expect(spyError).toHaveBeenCalledTimes(1);
+        expect(mockTaskObserver.observeTask).not.toHaveBeenCalled();
+        expect(mockEventDispatcher.dispatchError).toHaveBeenCalled();
       }
     );
   });

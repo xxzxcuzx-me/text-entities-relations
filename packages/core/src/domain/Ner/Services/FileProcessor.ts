@@ -1,30 +1,21 @@
 import { APIUrls, baseURL } from "../Constants";
 import axios from "axios";
-import { SimpleEventDispatcher, ISimpleEvent } from "strongly-typed-events";
 import { TaskHandler } from "./TaskHandler";
-import { ChunkList } from "../Models/ChunkList";
+import { Service } from "typedi";
+import { NEREventDispatcher } from "./NEREventDispatcher";
 
+@Service()
 export class FileProcessor {
   private headers = {
     headers: {
       "Content-Type": "application/octet-stream",
     },
   };
-  private taskHandler: TaskHandler;
-  private _onError: SimpleEventDispatcher<string>;
 
-  constructor(_onError: SimpleEventDispatcher<string>) {
-    this._onError = _onError;
-    this.taskHandler = new TaskHandler(_onError);
-  }
-
-  get onProgress(): ISimpleEvent<number> {
-    return this.taskHandler.onProgress;
-  }
-
-  get onSuccess(): ISimpleEvent<ChunkList> {
-    return this.taskHandler.onSuccess;
-  }
+  constructor(
+    private taskHandler: TaskHandler,
+    private eventDispatcher: NEREventDispatcher
+  ) {}
 
   public process(
     file: Buffer,
@@ -42,7 +33,7 @@ export class FileProcessor {
           resolve(null);
         },
         () => {
-          this._onError.dispatch("Error while uploading file");
+          this.eventDispatcher.dispatchError("Error while uploading file");
           reject(null);
         }
       );
