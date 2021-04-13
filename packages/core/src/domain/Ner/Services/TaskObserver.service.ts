@@ -1,9 +1,9 @@
 import { APIUrls, baseURL, Status } from "../Constants";
 import axios from "axios";
 import { ChunkList } from "../Models/ChunkList";
-import { ResultProcessor } from "./ResultProcessor";
+import { ResultProcessor } from "./ResultProcessor.service";
 import { Service } from "typedi";
-import { NEREventDispatcher } from "./NEREventDispatcher";
+import { NEREventDispatcher } from "./NEREventDispatcher.service";
 
 @Service()
 export class TaskObserver {

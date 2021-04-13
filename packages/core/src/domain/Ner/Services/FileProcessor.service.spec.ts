@@ -1,11 +1,11 @@
-import { FileProcessor } from "./FileProcessor";
-import { TaskHandler } from "./TaskHandler";
+import { FileProcessor } from "./FileProcessor.service";
+import { TaskHandler } from "./TaskHandler.service";
 import axios from "axios";
-import { TaskObserver } from "./TaskObserver";
+import { TaskObserver } from "./TaskObserver.service";
 import { Language } from "../Models/Language";
-import { NEREventDispatcher } from "./NEREventDispatcher";
-jest.mock("./NEREventDispatcher");
-jest.mock("./TaskHandler");
+import { NEREventDispatcher } from "./NEREventDispatcher.service";
+jest.mock("./NEREventDispatcher.service");
+jest.mock("./TaskHandler.service");
 jest.mock("axios");
 
 describe("FileProcessor", () => {

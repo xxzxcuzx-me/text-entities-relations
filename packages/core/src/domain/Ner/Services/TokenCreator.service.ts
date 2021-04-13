@@ -6,15 +6,15 @@ import { TokenType } from "../Models/TokenType";
 
 @Service()
 export class TokenCreator {
-  private wordGlobalCounter = 0;
+  private tokenGlobalCounter = 0;
 
   public createToken(
-    wordCounter: number,
+    tokenInSentenceCounter: number,
     sentence: Sentence,
     lastAnnotation: string,
     token: XMLToken
   ): string {
-    this.wordGlobalCounter++;
+    this.tokenGlobalCounter++;
     if (token.hasOwnProperty("ann")) {
       for (const annotation of token.ann) {
         if (annotation._ !== "0") {
@@ -31,8 +31,8 @@ export class TokenCreator {
             sentence.tokens.push(lastToken);
           } else {
             const newToken: Token = {
-              tokenIndex: wordCounter,
-              tokenGlobalIndex: this.wordGlobalCounter - 1,
+              tokenIndex: tokenInSentenceCounter,
+              tokenGlobalIndex: this.tokenGlobalCounter - 1,
               name: name,
               type: type,
             };
@@ -46,7 +46,7 @@ export class TokenCreator {
   }
 
   public reset(): void {
-    this.wordGlobalCounter = 0;
+    this.tokenGlobalCounter = 0;
   }
 
   private getTokenType(type: string): TokenType {

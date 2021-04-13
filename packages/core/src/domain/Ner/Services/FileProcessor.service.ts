@@ -1,8 +1,8 @@
 import { APIUrls, baseURL } from "../Constants";
 import axios from "axios";
-import { TaskHandler } from "./TaskHandler";
+import { TaskHandler } from "./TaskHandler.service";
 import { Service } from "typedi";
-import { NEREventDispatcher } from "./NEREventDispatcher";
+import { NEREventDispatcher } from "./NEREventDispatcher.service";
 
 @Service()
 export class FileProcessor {

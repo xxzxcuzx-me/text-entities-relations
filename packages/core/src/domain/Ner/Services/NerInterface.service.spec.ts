@@ -1,11 +1,11 @@
 import { NerInterfaceService } from "./NerInterface.service";
-import { FileProcessor } from "./FileProcessor";
-import { TaskHandler } from "./TaskHandler";
-import { NEREventDispatcher } from "./NEREventDispatcher";
+import { FileProcessor } from "./FileProcessor.service";
+import { TaskHandler } from "./TaskHandler.service";
+import { NEREventDispatcher } from "./NEREventDispatcher.service";
 import { Language } from "../Models/Language";
 //import { ChunkList } from "../Models/ChunkList";
-jest.mock("./FileProcessor");
-jest.mock("./NEREventDispatcher");
+jest.mock("./FileProcessor.service");
+jest.mock("./NEREventDispatcher.service");
 
 describe("NerInterfaceService", () => {
   const mockEventDispatcher = new NEREventDispatcher() as jest.Mocked<NEREventDispatcher>;

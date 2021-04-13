@@ -1,4 +1,4 @@
-import { TokenCreator } from "./TokenCreator";
+import { TokenCreator } from "./TokenCreator.service";
 import { Sentence } from "../Models/Sentence";
 import { XMLSentence } from "../Constants";
 import { Service } from "typedi";
@@ -18,20 +18,20 @@ export class SentenceCreator {
       sentenceGlobalIndex: this.sentenceGlobalCounter,
       tokens: [],
     };
-    let wordCounter = 0;
+    this.sentenceGlobalCounter++;
+    let tokenInSentenceCounter = 0;
     let lastAnnotation = "0";
     if (sentence.tok) {
       for (const token of sentence.tok) {
         lastAnnotation = this.tokenCreator.createToken(
-          wordCounter,
+          tokenInSentenceCounter,
           newSentence,
           lastAnnotation,
           token
         );
-        wordCounter++;
+        tokenInSentenceCounter++;
       }
     }
-    this.sentenceGlobalCounter++;
     return newSentence;
   }
 

@@ -1,6 +1,6 @@
-import { SentenceCreator } from "./SentenceCreator";
-import { TokenCreator } from "./TokenCreator";
-jest.mock("./TokenCreator");
+import { SentenceCreator } from "./SentenceCreator.service";
+import { TokenCreator } from "./TokenCreator.service";
+jest.mock("./TokenCreator.service");
 
 describe("SentenceCreator", () => {
   const mockTokenCreator = new TokenCreator() as jest.Mocked<TokenCreator>;

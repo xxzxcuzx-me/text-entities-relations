@@ -1,11 +1,12 @@
-import { TaskObserver } from "./TaskObserver";
-import { ResultProcessor } from "./ResultProcessor";
+import { TaskObserver } from "./TaskObserver.service";
+import { ResultProcessor } from "./ResultProcessor.service";
 import { ChunkList } from "../Models/ChunkList";
 import axios from "axios";
-import { NEREventDispatcher } from "./NEREventDispatcher";
-import { ChunkListCreator } from "./ChunkListCreator";
-jest.mock("./NEREventDispatcher");
-jest.mock("./ResultProcessor");
+import { NEREventDispatcher } from "./NEREventDispatcher.service";
+import { ChunkListCreator } from "./ChunkListCreator.service";
+import { Chunk } from "../Models/Chunk";
+jest.mock("./NEREventDispatcher.service");
+jest.mock("./ResultProcessor.service");
 jest.mock("axios");
 
 describe("TaskObserver", () => {
@@ -69,6 +70,44 @@ describe("TaskObserver", () => {
     expect(spyAxios).toHaveBeenCalledTimes(3);
     expect(spyAxios).toHaveBeenCalledWith(
       "https://ws.clarin-pl.eu/nlprest2/base/getStatus/" + taskHandle
+    );
+  });
+
+  it("should try to hit proper APIUrls.STATUS URL and work on two files", async () => {
+    const dataProcessing = {
+      data: { value: 0.3333333333333333, status: "PROCESSING" },
+    };
+    const dataDone = {
+      data: {
+        value: [
+          {
+            name: "file1",
+            fileID: "/requests/spacy/c3c13c84-3578-43bb-840b-ba14c5fa1b99",
+          },
+          {
+            name: "file2",
+            fileID: "/requests/spacy/c3c13c84-3578-43bb-840b-ba14c5fa1b99",
+          },
+        ],
+        status: "DONE",
+      },
+    };
+    const testChunk: Chunk = { chunkIndex: 0, sentences: [] };
+    const testChunkList: ChunkList = [testChunk];
+    const resultChunkList: ChunkList = [testChunk, testChunk];
+    mockResultProcessor.processResult.mockResolvedValue(testChunkList);
+    mockEventDispatcher.dispatchProgress.mockReturnValue();
+    mockEventDispatcher.dispatchSuccess.mockReturnValue();
+    const spyAxios = jest.spyOn(axios, "get");
+    spyAxios
+      .mockResolvedValueOnce(dataProcessing)
+      .mockResolvedValueOnce(dataProcessing)
+      .mockResolvedValue(dataDone);
+    const taskHandle = "test";
+    await taskObserver.observeTask(taskHandle);
+
+    expect(mockEventDispatcher.dispatchSuccess).toHaveBeenCalledWith(
+      resultChunkList
     );
   });
 

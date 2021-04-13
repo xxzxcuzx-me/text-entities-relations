@@ -1,4 +1,4 @@
-import { TokenCreator } from "./TokenCreator";
+import { TokenCreator } from "./TokenCreator.service";
 import { Sentence } from "../Models/Sentence";
 import { Token } from "../Models/Token";
 import { XMLToken } from "../Constants";

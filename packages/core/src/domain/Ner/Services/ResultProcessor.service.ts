@@ -1,9 +1,9 @@
 import { APIUrls, baseURL } from "../Constants";
 import axios from "axios";
-import { ChunkListCreator } from "./ChunkListCreator";
+import { ChunkListCreator } from "./ChunkListCreator.service";
 import { ChunkList } from "../Models/ChunkList";
 import { Service } from "typedi";
-import { NEREventDispatcher } from "./NEREventDispatcher";
+import { NEREventDispatcher } from "./NEREventDispatcher.service";
 
 @Service()
 export class ResultProcessor {
@@ -17,7 +17,6 @@ export class ResultProcessor {
     return new Promise((resolve, reject) => {
       axios.get(URL).then(
         (response) => {
-          this.chunkListCreator.reset();
           const NERData = response.data;
           const result = this.chunkListCreator.createChunkList(NERData);
           resolve(result);

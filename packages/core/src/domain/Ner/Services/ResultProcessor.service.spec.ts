@@ -1,11 +1,11 @@
-import { ResultProcessor } from "./ResultProcessor";
-import { ChunkListCreator } from "./ChunkListCreator";
+import { ResultProcessor } from "./ResultProcessor.service";
+import { ChunkListCreator } from "./ChunkListCreator.service";
 import { ChunkList } from "../Models/ChunkList";
 import axios from "axios";
-import { NEREventDispatcher } from "./NEREventDispatcher";
-import { ChunkCreator } from "./ChunkCreator";
-jest.mock("./NEREventDispatcher");
-jest.mock("./ChunkListCreator");
+import { NEREventDispatcher } from "./NEREventDispatcher.service";
+import { ChunkCreator } from "./ChunkCreator.service";
+jest.mock("./NEREventDispatcher.service");
+jest.mock("./ChunkListCreator.service");
 jest.mock("axios");
 
 describe("ResultProcessor", () => {

@@ -1,8 +1,8 @@
 import { APIUrls, baseURL } from "../Constants";
 import axios from "axios";
-import { TaskObserver } from "./TaskObserver";
+import { TaskObserver } from "./TaskObserver.service";
 import { Service } from "typedi";
-import { NEREventDispatcher } from "./NEREventDispatcher";
+import { NEREventDispatcher } from "./NEREventDispatcher.service";
 
 @Service()
 export class TaskHandler {

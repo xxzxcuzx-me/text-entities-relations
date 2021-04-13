@@ -1,11 +1,11 @@
-import { TaskHandler } from "./TaskHandler";
-import { TaskObserver } from "./TaskObserver";
+import { TaskHandler } from "./TaskHandler.service";
+import { TaskObserver } from "./TaskObserver.service";
 import axios from "axios";
-import { ResultProcessor } from "./ResultProcessor";
-import { NEREventDispatcher } from "./NEREventDispatcher";
+import { ResultProcessor } from "./ResultProcessor.service";
+import { NEREventDispatcher } from "./NEREventDispatcher.service";
 import { Language } from "../Models/Language";
-jest.mock("./NEREventDispatcher");
-jest.mock("./TaskObserver");
+jest.mock("./NEREventDispatcher.service");
+jest.mock("./TaskObserver.service");
 jest.mock("axios");
 
 describe("TaskHandler", () => {

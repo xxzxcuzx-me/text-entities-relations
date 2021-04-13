@@ -1,8 +1,8 @@
-import { ChunkCreator } from "./ChunkCreator";
-import { SentenceCreator } from "./SentenceCreator";
+import { ChunkCreator } from "./ChunkCreator.service";
+import { SentenceCreator } from "./SentenceCreator.service";
 import { Sentence } from "../Models/Sentence";
-import { TokenCreator } from "./TokenCreator";
-jest.mock("./SentenceCreator");
+import { TokenCreator } from "./TokenCreator.service";
+jest.mock("./SentenceCreator.service");
 
 describe("ChunkCreator", () => {
   const mockSentenceCreator = new SentenceCreator(
@@ -23,7 +23,6 @@ describe("ChunkCreator", () => {
       sentenceIndex: 0,
     };
     mockSentenceCreator.createSentence.mockReturnValue(testSentence);
-    const chunkCounter = 0;
     const chunk = {
       sentence: [
         {
@@ -58,7 +57,7 @@ describe("ChunkCreator", () => {
         },
       ],
     };
-    const newChunk = chunkCreator.createChunk(chunkCounter, chunk);
+    const newChunk = chunkCreator.createChunk(chunk);
 
     expect(newChunk.chunkIndex).toBe(0);
     expect(mockSentenceCreator.createSentence).toHaveBeenCalledTimes(2);
@@ -71,7 +70,6 @@ describe("ChunkCreator", () => {
       sentenceIndex: 0,
     };
     mockSentenceCreator.createSentence.mockReturnValue(testSentence);
-    let chunkCounter = 0;
     const chunk = {
       sentence: [
         {
@@ -107,9 +105,8 @@ describe("ChunkCreator", () => {
       ],
     };
 
-    chunkCreator.createChunk(chunkCounter, chunk);
-    chunkCounter++;
-    const newChunk = chunkCreator.createChunk(chunkCounter, chunk);
+    chunkCreator.createChunk(chunk);
+    const newChunk = chunkCreator.createChunk(chunk);
 
     expect(newChunk.chunkIndex).toBe(1);
     expect(mockSentenceCreator.createSentence).toHaveBeenCalledTimes(4);

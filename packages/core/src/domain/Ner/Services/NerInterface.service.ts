@@ -1,15 +1,15 @@
 import Container, { Service } from "typedi";
 import { ISimpleEvent } from "strongly-typed-events";
 import { ChunkList } from "../Models/ChunkList";
-import { FileProcessor } from "./FileProcessor";
-import { NEREventDispatcher } from "./NEREventDispatcher";
-import { TaskHandler } from "./TaskHandler";
-import { TaskObserver } from "./TaskObserver";
-import { ResultProcessor } from "./ResultProcessor";
-import { ChunkListCreator } from "./ChunkListCreator";
-import { ChunkCreator } from "./ChunkCreator";
-import { SentenceCreator } from "./SentenceCreator";
-import { TokenCreator } from "./TokenCreator";
+import { FileProcessor } from "./FileProcessor.service";
+import { NEREventDispatcher } from "./NEREventDispatcher.service";
+import { TaskHandler } from "./TaskHandler.service";
+import { TaskObserver } from "./TaskObserver.service";
+import { ResultProcessor } from "./ResultProcessor.service";
+import { ChunkListCreator } from "./ChunkListCreator.service";
+import { ChunkCreator } from "./ChunkCreator.service";
+import { SentenceCreator } from "./SentenceCreator.service";
+import { TokenCreator } from "./TokenCreator.service";
 
 /**
  * Responsible for sending and obtaining results of NER processing.

@@ -1,8 +1,8 @@
-import { ChunkListCreator } from "./ChunkListCreator";
-import { ChunkCreator } from "./ChunkCreator";
+import { ChunkListCreator } from "./ChunkListCreator.service";
+import { ChunkCreator } from "./ChunkCreator.service";
 import { Chunk } from "../Models/Chunk";
-import { SentenceCreator } from "./SentenceCreator";
-jest.mock("./ChunkCreator");
+import { SentenceCreator } from "./SentenceCreator.service";
+jest.mock("./ChunkCreator.service");
 
 describe("ChunkListCreator", () => {
   const mockChunkCreator = new ChunkCreator(
